@@ -1,6 +1,5 @@
 module Spree
   class BuyController < Spree::StoreController
-#    before_action :check_authorization
     before_action :load_order_with_lock
     before_action :forward_order, only: :edit
 
@@ -8,17 +7,15 @@ module Spree
     end
 
     private
-
-#      def check_authorization
-#        authorize!(:edit, current_order, cookies.signed[:guest_token])
-#      end
-
       def load_order_with_lock
         @order = current_order(lock: true)
         redirect_to spree.cart_path and return unless @order && @order.line_items.present?
       end
 
       def forward_order
+        set_address unless @order.has_address?
+        return unless @order.has_address?
+
         while @order.next do
           if @order.state == "delivery"
             @order.shipments.each do |shipment|
@@ -28,6 +25,13 @@ module Spree
             end
           end
         end
+      end
+
+      def set_address
+        addr = spree_current_user.bill_address || spree_current_user.ship_address
+
+        @order.bill_address = (spree_current_user.bill_address || addr).try(:dup) || Spree::Address.default(try_spree_current_user, "bill")
+        @order.ship_address = (spree_current_user.ship_address || addr).try(:dup) || Spree::Address.default(try_spree_current_user, "ship")
       end
   end
 end
