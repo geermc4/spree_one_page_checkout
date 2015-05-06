@@ -2,6 +2,7 @@ module Spree
   class BuyController < Spree::StoreController
     before_action :load_order_with_lock
     before_action :forward_order, only: :edit
+    before_action :set_step, only: :edit
 
     def edit
     end
@@ -32,6 +33,10 @@ module Spree
 
         @order.bill_address = (spree_current_user.bill_address || addr).try(:dup) || Spree::Address.default(try_spree_current_user, "bill")
         @order.ship_address = (spree_current_user.ship_address || addr).try(:dup) || Spree::Address.default(try_spree_current_user, "ship")
+      end
+
+      def set_step
+        @step = params[:step] || "address"
       end
   end
 end
