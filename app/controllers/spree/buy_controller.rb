@@ -1,5 +1,7 @@
 module Spree
   class BuyController < Spree::StoreController
+    before_action :authenticate!
+
     before_action :load_order_with_lock
     before_action :forward_order, only: :edit
     before_action :set_step, only: :edit
@@ -8,6 +10,10 @@ module Spree
     end
 
     private
+      def authenticate!
+        authorize!(:edit, current_order, try_spree_current_user)
+      end
+
       def load_order_with_lock
         @order = current_order(lock: true)
         redirect_to spree.cart_path and return unless @order && @order.line_items.present?
