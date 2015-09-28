@@ -3,8 +3,8 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_one_page_checkout'
   s.version     = '3.0.0'
-  s.summary     = 'TODO: Add gem summary here'
-  s.description = 'TODO: Add (optional) gem description here'
+  s.summary     = 'One page checkout for spree'
+  s.description = 'One page checkout for spree'
   s.required_ruby_version = '>= 2.0.0'
 
   s.author    = 'German Garcia'
