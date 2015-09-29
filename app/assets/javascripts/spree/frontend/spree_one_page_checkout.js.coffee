@@ -14,11 +14,10 @@ Spree.ready ->
     $('#address_form').removeClass('hidden')
     $('#short_address').addClass('hidden')
 
-    $('#address_form [data-hook="buttons"] .btn').click (save_event) ->
-      save_event.preventDefault()
-
-      $('#checkout_form_address').ajaxForm(form_options)
-      $('#checkout_form_address').submit()
+  $('#address_form [data-hook="buttons"] .btn').click (save_event) ->
+    save_event.preventDefault()
+    $('#checkout_form_address').ajaxForm(form_options)
+    $('#checkout_form_address').submit()
 
   $('#cancel_address').click (event) ->
     event.preventDefault()

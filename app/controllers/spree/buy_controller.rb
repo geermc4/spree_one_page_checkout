@@ -28,7 +28,7 @@ module Spree
             @order.shipments.each do |shipment|
               shipment.shipping_rates.update_all(selected: false)
               shipment.shipping_rates.where("cost > 0").sort_by(&:cost).first.update(selected: true)
-              shipment.update_attributes_and_order(selected_shipping_rate: shipment.selected_shipping_rate)
+              shipment.update_attributes_and_order(selected_shipping_rate_id: shipment.selected_shipping_rate.id)
             end
           end
         end
